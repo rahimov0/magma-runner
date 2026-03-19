@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Magma Runner | Retro Platformer</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/public/manifest.json">
+    <meta name="theme-color" content="#050008">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- iOS Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Magma Runner">
+    <link rel="apple-touch-icon" href="/public/icon-192.png">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="hud" style="display: none;">
+            <div class="hud-item">CRYSTALS: <span id="crystal-count">0 / 0</span></div>
+            <div id="pause-btn" title="Pause (ESC)">⏸</div>
+        </div>
+
+        <div id="menu" class="overlay">
+            <h1>MAGMA RUNNER</h1>
+            <p>Ascend from the volcanic depths.</p>
+            <div id="level-select" class="level-grid"></div>
+            <div class="controls-hint">
+                <p>Arrows / WASD: Move & Jump</p>
+                <p>C: Glide | X: Grappling Hook</p>
+            </div>
+            <button id="start-btn">NEW ADVENTURE</button>
+        </div>
+
+        <div id="pause-menu" class="overlay" style="display: none;">
+            <h1>PAUSED</h1>
+            <div class="menu-btns">
+                <button id="resume-btn">RESUME</button>
+                <button id="restart-btn" class="secondary">RESTART LEVEL</button>
+                <button id="quit-pause-btn" class="secondary">MAIN MENU</button>
+            </div>
+        </div>
+
+        <div id="game-over" class="overlay" style="display: none;">
+            <h1 id="game-over-msg">WASTED</h1>
+            <div class="menu-btns">
+                <button id="retry-btn">RETRY</button>
+                <button id="quit-btn" class="secondary">MAIN MENU</button>
+            </div>
+        </div>
+
+        <div id="win-screen" class="overlay" style="display: none;">
+            <h1>VICTORY!</h1>
+            <h2 id="win-level">Level Clear!</h2>
+            <button id="next-level-btn">NEXT LEVEL</button>
+        </div>
+
+        <!-- Virtual Controls for Mobile -->
+        <div id="virtual-controls" class="mobile-only">
+            <div class="dpad">
+                <button id="btn-left" class="v-btn">◀</button>
+                <button id="btn-right" class="v-btn">▶</button>
+            </div>
+            <div class="actions">
+                <button id="btn-jump" class="v-btn large">JUMP</button>
+                <div class="sub-actions">
+                    <button id="btn-glide" class="v-btn small">GLIDE (C)</button>
+                    <button id="btn-hook" class="v-btn small">HOOK (X)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
