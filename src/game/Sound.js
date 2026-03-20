@@ -4,9 +4,16 @@ export class Sound {
         this.lavaGain = this.ctx.createGain();
         this.lavaGain.connect(this.ctx.destination);
         this.lavaOsc = null;
+        this.muted = localStorage.getItem('magma_runner_muted') === 'true';
+    }
+
+    setMuted(val) {
+        this.muted = val;
+        localStorage.setItem('magma_runner_muted', val);
     }
 
     play(freq, type, duration, vol = 0.1) {
+        if (this.muted) return;
         if (this.ctx.state === 'suspended') this.ctx.resume();
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
@@ -47,10 +54,13 @@ export class Sound {
         setTimeout(() => this.play(1000, 'square', 0.4, 0.1), 200);
     }
 
-    updateLava(proximity) {
-        // Disabled per user request (too much buzzing)
-        return;
+    rank() {
+        this.play(523, 'square', 0.1, 0.08);
+        setTimeout(() => this.play(659, 'square', 0.1, 0.08), 80);
+        setTimeout(() => this.play(784, 'square', 0.3, 0.1), 160);
     }
+
+    updateLava(proximity) { return; }
     
     stopLava() {
         if (this.lavaOsc) {

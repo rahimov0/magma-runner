@@ -20,22 +20,34 @@
     <div id="game-container">
         <canvas id="game-canvas"></canvas>
         
+        <!-- HUD -->
         <div id="hud" style="display: none;">
-            <div class="hud-item">CRYSTALS: <span id="crystal-count">0 / 0</span></div>
+            <div class="hud-left">
+                <div class="hud-item">CRYSTALS: <span id="crystal-count">0 / 0</span></div>
+                <div class="hud-item hud-timer">⏱ <span id="timer-display">00:00</span></div>
+            </div>
             <div id="pause-btn" title="Pause (ESC)">⏸</div>
         </div>
 
+        <!-- MENU -->
         <div id="menu" class="overlay">
             <h1>MAGMA RUNNER</h1>
             <p>Ascend from the volcanic depths.</p>
+            <div id="level-page-info" class="page-info">Page 1 / 5</div>
             <div id="level-select" class="level-grid"></div>
+            <div class="level-nav">
+                <button id="page-prev" class="nav-btn secondary">◀</button>
+                <button id="start-btn">NEW ADVENTURE</button>
+                <button id="page-next" class="nav-btn secondary">▶</button>
+            </div>
             <div class="controls-hint">
                 <p>Arrows / WASD: Move & Jump</p>
                 <p>C: Glide | X: Grappling Hook</p>
             </div>
-            <button id="start-btn">NEW ADVENTURE</button>
+            <button id="settings-btn" class="secondary settings-open-btn">⚙ SETTINGS</button>
         </div>
 
+        <!-- PAUSE -->
         <div id="pause-menu" class="overlay" style="display: none;">
             <h1>PAUSED</h1>
             <div class="menu-btns">
@@ -45,6 +57,7 @@
             </div>
         </div>
 
+        <!-- GAME OVER -->
         <div id="game-over" class="overlay" style="display: none;">
             <h1 id="game-over-msg">WASTED</h1>
             <div class="menu-btns">
@@ -53,14 +66,50 @@
             </div>
         </div>
 
+        <!-- WIN SCREEN -->
         <div id="win-screen" class="overlay" style="display: none;">
             <h1>VICTORY!</h1>
             <h2 id="win-level">Level Clear!</h2>
+            <div id="win-stats" class="win-stats">
+                <div class="stat-row">
+                    <span class="stat-label">TIME</span>
+                    <span id="win-time" class="stat-value">00:00</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">RANK</span>
+                    <span id="win-rank" class="rank-badge rank-c">C</span>
+                </div>
+                <div class="stat-row best-row" id="win-best-row" style="display:none;">
+                    <span class="stat-label">BEST</span>
+                    <span id="win-best" class="stat-value">--:--</span>
+                </div>
+            </div>
             <button id="next-level-btn">NEXT LEVEL</button>
         </div>
 
+        <!-- SETTINGS -->
+        <div id="settings-menu" class="overlay" style="display: none;">
+            <h1>⚙ SETTINGS</h1>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <span class="setting-label">Sound FX</span>
+                    <div id="toggle-sound" class="toggle active" data-key="sound">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">Controls</span>
+                    <div class="control-options">
+                        <button id="ctrl-dpad" class="ctrl-opt active">D-PAD</button>
+                        <button id="ctrl-joystick" class="ctrl-opt">JOYSTICK</button>
+                    </div>
+                </div>
+            </div>
+            <button id="settings-back" class="secondary">◀ BACK</button>
+        </div>
+
         <!-- Virtual Controls for Mobile -->
-        <div id="virtual-controls" class="mobile-only">
+        <div id="virtual-controls" style="display:none;">
             <div class="dpad">
                 <button id="btn-left" class="v-btn">◀</button>
                 <button id="btn-right" class="v-btn">▶</button>
@@ -68,8 +117,8 @@
             <div class="actions">
                 <button id="btn-jump" class="v-btn large">JUMP</button>
                 <div class="sub-actions">
-                    <button id="btn-glide" class="v-btn small">GLIDE (C)</button>
-                    <button id="btn-hook" class="v-btn small">HOOK (X)</button>
+                    <button id="btn-glide" class="v-btn small">GLIDE</button>
+                    <button id="btn-hook" class="v-btn small">HOOK</button>
                 </div>
             </div>
         </div>
