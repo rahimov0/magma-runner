@@ -60,6 +60,50 @@ export class Renderer {
             this.drawSpikes(x, y, width, height);
         } else if (type === 'LAVA_POOL') {
             this.drawRealisticLava(x, y + 5, width, height - 5);
+        } else if (type === 'CRUMBLING') {
+            // Crumbling platform with shake
+            const shake = p.shakeAmount || 0;
+            const dx = x + shake;
+            const alpha = p.crumbling ? Math.max(0.3, 1 - p.crumbleTimer / p.crumbleDelay) : 1;
+            this.ctx.save();
+            this.ctx.globalAlpha = alpha;
+            const grad = this.ctx.createLinearGradient(dx, y, dx, y + height);
+            grad.addColorStop(0, '#8B7355');
+            grad.addColorStop(1, '#5a4a30');
+            this.drawRect(dx, y, width, height, grad);
+            // Crack lines
+            this.ctx.strokeStyle = '#2a1a10';
+            this.ctx.lineWidth = 1;
+            this.ctx.beginPath();
+            this.ctx.moveTo(dx + width * 0.3, y);
+            this.ctx.lineTo(dx + width * 0.4, y + height);
+            this.ctx.moveTo(dx + width * 0.7, y);
+            this.ctx.lineTo(dx + width * 0.6, y + height);
+            this.ctx.stroke();
+            // Warning border when about to fall
+            if (p.crumbling) {
+                this.ctx.strokeStyle = '#ff4400';
+                this.ctx.lineWidth = 2;
+                this.ctx.strokeRect(dx, y, width, height);
+            }
+            this.ctx.restore();
+        } else if (type === 'MOVING') {
+            // Moving platform with glowing edges
+            const grad = this.ctx.createLinearGradient(x, y, x, y + height);
+            grad.addColorStop(0, '#5577aa');
+            grad.addColorStop(1, '#334466');
+            this.drawRect(x, y, width, height, grad);
+            this.ctx.save();
+            this.ctx.shadowBlur = 6;
+            this.ctx.shadowColor = '#5577aa';
+            this.ctx.strokeStyle = '#88aacc';
+            this.ctx.lineWidth = 1;
+            this.ctx.strokeRect(x, y, width, height);
+            // Direction arrows
+            this.ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            this.ctx.font = '10px Arial';
+            this.ctx.fillText('⇔', x + width/2 - 5, y + height/2 + 4);
+            this.ctx.restore();
         } else {
             const grad = this.ctx.createLinearGradient(x, y, x, y + height);
             grad.addColorStop(0, '#3a2a2a');
@@ -69,13 +113,37 @@ export class Renderer {
             this.ctx.lineWidth = 1;
             this.ctx.strokeRect(x, y, width, height);
             
-            // Rock texture detail
             this.ctx.globalAlpha = 0.05;
             this.ctx.fillStyle = '#fff';
             this.ctx.fillRect(x + 5, y + 5, 20, 2);
             this.ctx.fillRect(x + width - 25, y + height - 5, 20, 2);
             this.ctx.globalAlpha = 1.0;
         }
+    }
+
+    drawMeteor(m) {
+        this.ctx.save();
+        // Trail
+        m.trail.forEach(t => {
+            const alpha = t.life / 15;
+            this.ctx.fillStyle = `rgba(255, 100, 0, ${alpha * 0.6})`;
+            this.ctx.beginPath();
+            this.ctx.arc(t.x, t.y, 6 * alpha, 0, Math.PI * 2);
+            this.ctx.fill();
+        });
+        // Meteor body
+        this.ctx.shadowBlur = 15;
+        this.ctx.shadowColor = '#ff4400';
+        this.ctx.fillStyle = '#ff6600';
+        this.ctx.beginPath();
+        this.ctx.arc(m.x + m.width/2, m.y + m.height/2, 10, 0, Math.PI * 2);
+        this.ctx.fill();
+        // White-hot core
+        this.ctx.fillStyle = '#ffcc00';
+        this.ctx.beginPath();
+        this.ctx.arc(m.x + m.width/2, m.y + m.height/2, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.restore();
     }
 
     drawSpikes(x, y, w, h) {

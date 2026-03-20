@@ -29,6 +29,9 @@
             <div id="pause-btn" title="Pause (ESC)">⏸</div>
         </div>
 
+        <!-- MINI MAP -->
+        <canvas id="mini-map" width="120" height="90" style="display:none;"></canvas>
+
         <!-- MENU -->
         <div id="menu" class="overlay">
             <h1>MAGMA RUNNER</h1>
@@ -39,10 +42,6 @@
                 <button id="page-prev" class="nav-btn secondary">◀</button>
                 <button id="start-btn">NEW ADVENTURE</button>
                 <button id="page-next" class="nav-btn secondary">▶</button>
-            </div>
-            <div class="controls-hint">
-                <p>Arrows / WASD: Move & Jump</p>
-                <p>C: Glide | X: Grappling Hook</p>
             </div>
             <button id="settings-btn" class="secondary settings-open-btn">⚙ SETTINGS</button>
         </div>
@@ -108,11 +107,17 @@
             <button id="settings-back" class="secondary">◀ BACK</button>
         </div>
 
-        <!-- Virtual Controls for Mobile -->
+        <!-- Virtual Controls: D-PAD -->
         <div id="virtual-controls" style="display:none;">
-            <div class="dpad">
+            <div class="dpad" id="dpad-controls">
                 <button id="btn-left" class="v-btn">◀</button>
                 <button id="btn-right" class="v-btn">▶</button>
+            </div>
+            <!-- Joystick alternative -->
+            <div class="joystick-container" id="joystick-controls" style="display:none;">
+                <div id="joystick-zone" class="joystick-zone">
+                    <div id="joystick-knob" class="joystick-knob"></div>
+                </div>
             </div>
             <div class="actions">
                 <button id="btn-jump" class="v-btn large">JUMP</button>
