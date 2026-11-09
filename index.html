@@ -1,133 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Magma Runner | Retro Platformer</title>
-    
-    <!-- PWA Meta Tags -->
-    <link rel="manifest" href="/public/manifest.json">
-    <meta name="theme-color" content="#050008">
-    <meta name="mobile-web-app-capable" content="yes">
-    
-    <!-- iOS Support -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Magma Runner">
-    <link rel="apple-touch-icon" href="/public/icon-192.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Abyss Diver</title>
+  <meta name="description" content="Retro pixel deep-sea diving arcade game with 50 levels." />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon-192.png" />
+  <meta name="theme-color" content="#05070f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Abyss Diver" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
 </head>
 <body>
-    <div id="game-container">
-        <canvas id="game-canvas"></canvas>
-        
-        <!-- HUD -->
-        <div id="hud" style="display: none;">
-            <div class="hud-left">
-                <div class="hud-item">CRYSTALS: <span id="crystal-count">0 / 0</span></div>
-                <div class="hud-item hud-timer">⏱ <span id="timer-display">00:00</span></div>
-            </div>
-            <div id="pause-btn" title="Pause (ESC)">⏸</div>
-        </div>
-
-        <!-- MINI MAP -->
-        <canvas id="mini-map" width="120" height="90" style="display:none;"></canvas>
-
-        <!-- MENU -->
-        <div id="menu" class="overlay">
-            <h1>MAGMA RUNNER</h1>
-            <p>Ascend from the volcanic depths.</p>
-            <div id="level-page-info" class="page-info">Page 1 / 5</div>
-            <div id="level-select" class="level-grid"></div>
-            <div class="level-nav">
-                <button id="page-prev" class="nav-btn secondary">◀</button>
-                <button id="start-btn">NEW ADVENTURE</button>
-                <button id="page-next" class="nav-btn secondary">▶</button>
-            </div>
-            <button id="settings-btn" class="secondary settings-open-btn">⚙ SETTINGS</button>
-        </div>
-
-        <!-- PAUSE -->
-        <div id="pause-menu" class="overlay" style="display: none;">
-            <h1>PAUSED</h1>
-            <div class="menu-btns">
-                <button id="resume-btn">RESUME</button>
-                <button id="restart-btn" class="secondary">RESTART LEVEL</button>
-                <button id="quit-pause-btn" class="secondary">MAIN MENU</button>
-            </div>
-        </div>
-
-        <!-- GAME OVER -->
-        <div id="game-over" class="overlay" style="display: none;">
-            <h1 id="game-over-msg">WASTED</h1>
-            <div class="menu-btns">
-                <button id="retry-btn">RETRY</button>
-                <button id="quit-btn" class="secondary">MAIN MENU</button>
-            </div>
-        </div>
-
-        <!-- WIN SCREEN -->
-        <div id="win-screen" class="overlay" style="display: none;">
-            <h1>VICTORY!</h1>
-            <h2 id="win-level">Level Clear!</h2>
-            <div id="win-stats" class="win-stats">
-                <div class="stat-row">
-                    <span class="stat-label">TIME</span>
-                    <span id="win-time" class="stat-value">00:00</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">RANK</span>
-                    <span id="win-rank" class="rank-badge rank-c">C</span>
-                </div>
-                <div class="stat-row best-row" id="win-best-row" style="display:none;">
-                    <span class="stat-label">BEST</span>
-                    <span id="win-best" class="stat-value">--:--</span>
-                </div>
-            </div>
-            <button id="next-level-btn">NEXT LEVEL</button>
-        </div>
-
-        <!-- SETTINGS -->
-        <div id="settings-menu" class="overlay" style="display: none;">
-            <h1>⚙ SETTINGS</h1>
-            <div class="settings-list">
-                <div class="setting-item">
-                    <span class="setting-label">Sound FX</span>
-                    <div id="toggle-sound" class="toggle active" data-key="sound">
-                        <div class="toggle-knob"></div>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <span class="setting-label">Controls</span>
-                    <div class="control-options">
-                        <button id="ctrl-dpad" class="ctrl-opt active">D-PAD</button>
-                        <button id="ctrl-joystick" class="ctrl-opt">JOYSTICK</button>
-                    </div>
-                </div>
-            </div>
-            <button id="settings-back" class="secondary">◀ BACK</button>
-        </div>
-
-        <!-- Virtual Controls: D-PAD -->
-        <div id="virtual-controls" style="display:none;">
-            <div class="dpad" id="dpad-controls">
-                <button id="btn-left" class="v-btn">◀</button>
-                <button id="btn-right" class="v-btn">▶</button>
-            </div>
-            <!-- Joystick alternative -->
-            <div class="joystick-container" id="joystick-controls" style="display:none;">
-                <div id="joystick-zone" class="joystick-zone">
-                    <div id="joystick-knob" class="joystick-knob"></div>
-                </div>
-            </div>
-            <div class="actions">
-                <button id="btn-jump" class="v-btn large">JUMP</button>
-                <div class="sub-actions">
-                    <button id="btn-glide" class="v-btn small">GLIDE</button>
-                    <button id="btn-hook" class="v-btn small">HOOK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="module" src="/src/main.js"></script>
+  <canvas id="game"></canvas>
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>
